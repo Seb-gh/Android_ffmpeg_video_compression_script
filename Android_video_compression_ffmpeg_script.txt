@@ -91,5 +91,3 @@ echo -e "3. Now create a shortcut/widget for Termux and select the compression s
 echo -e "4. Place your videos in the designated folder for compression :"
 echo -e "$folder_with_videos_to_compress\n"
 echo -e "5. Click on the just created shortcut/widget to launch the compression\n\n"
-ion\n\n"
-"
