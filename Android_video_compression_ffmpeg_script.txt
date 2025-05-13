@@ -2,7 +2,7 @@
 
 # 1. Install Termux from the Play Store
 
-# 2. Copy all the commands below, paste them into the Termux terminal then press Enter and follow the instructions
+# 2. Copy all the commands, paste them into the Termux terminal then press Enter and follow the instructions
 #    This will configure Termux and create the compression script
 
 # 3. Now create a shortcut widget for Termux and select the compression script
