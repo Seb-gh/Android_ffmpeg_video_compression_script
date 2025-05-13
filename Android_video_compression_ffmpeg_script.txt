@@ -1,0 +1,91 @@
+# This is an easy tool to bulk compress videos with good quality
+
+# 1. Install Termux from the Play Store
+
+# 2. Copy all the commands below, paste them into the Termux terminal then press Enter and follow the instructions
+#    This will configure Termux and create the compression script
+
+# 3. Now create a shortcut widget for Termux and select the compression script
+
+# 4. Place your videos in the designated folder for compression (by default /DCIM/Videos_to_compress/)
+
+# 5. Click on the just created shortcut to launch the compression
+
+
+# Installation script :
+
+# Set root to the folder where videos to compress are located
+folder_with_videos_to_compress="/DCIM/Videos_to_compress/"
+
+# Create folder where we put videos to compress
+mkdir -p "$HOME/storage/shared$folder_with_videos_to_compress"
+
+# Set compress tag that will be added to the name of compressed file
+compress_tag=" (compressé)"
+
+# Set Termux folders and access file rights 
+termux-setup-storage
+
+# Install ffmpeg library
+pkg install -y ffmpeg
+
+# Create .shortcuts folder if it does not exist
+[ -d "$HOME/.shortcuts" ] || mkdir "$HOME/.shortcuts"
+
+# Set script name
+script_name="compress videos.sh"
+
+# Create the script in the .shortcuts folder of Termux, in order to be able to call the script from Termux Widget
+cat > "$HOME/.shortcuts/$script_name" << EOF
+
+folder_with_videos_to_compress="$folder_with_videos_to_compress"
+compress_tag="$compress_tag"
+video_found=0
+
+mkdir -p "\$HOME/storage/shared\$folder_with_videos_to_compress"
+
+for f in "\$HOME/storage/shared\$folder_with_videos_to_compress"*.mp4; do
+  # If the folder is empty, "f" will take the value of the string tested, so we ensure "f" is a file
+  [ -f "\$f" ] || continue
+
+  video_found=1
+
+  filename_with_extension=\$(basename "\$f")
+  filename="\${filename_with_extension%.*}"
+  output_file="\$HOME/storage/shared\$folder_with_videos_to_compress\$filename\$compress_tag.mp4"
+  
+  if echo "\$filename" | grep -q "\$compress_tag"; then
+    echo "\n\$filename_with_extension skipped : compressed video.\n"
+    continue
+  fi
+
+  if [ -e "\$output_file" ]; then
+    echo "\n\$filename_with_extension skipped : already compressed.\n"
+    continue
+  fi
+
+  ffmpeg -i "\$f" -c:v libx265 -crf 25 -preset medium -c:a copy "\$output_file" -hide_banner
+done
+
+if [ "\$video_found" -eq 0 ]; then
+  echo "\nNo videos founds, please put videos in \$folder_with_videos_to_compress before starting the compression\n"
+  echo "Press Enter to close."
+else
+  echo "\n\nFinished\n"
+  echo "Please verify that no error occured, then press Enter to close.\n"
+fi
+read dummy
+
+EOF
+
+
+# Give execution right on the script
+chmod +x "$HOME/.shortcuts/$script_name"
+
+echo -e "\n\nInstallation finished, 1. and 2. Ok\n"
+echo -e "3. Now create a shortcut/widget for Termux and select the compression script.\n"
+echo -e "4. Place your videos in the designated folder for compression :"
+echo -e "$folder_with_videos_to_compress\n"
+echo -e "5. Click on the just created shortcut/widget to launch the compression\n\n"
+ion\n\n"
+"
