@@ -1,4 +1,4 @@
-# This is an easy tool to bulk compress videos with good quality on Android
+# This is an easy tool to bulk compress videos with good quality on Android using FFmpeg library
 
 # 1. Install Termux from the Play Store
 
