@@ -12,7 +12,7 @@
 
 # 5. Click on the just created shortcut to launch the compression
 
-# 6. Repository : https://github.com/Seb-gh/Android_ffmpeg_video_compression_script/
+# Repository : https://github.com/Seb-gh/Android_ffmpeg_video_compression_script/
 
 
 # Installation script :
