@@ -36,8 +36,7 @@ pkg install -y ffmpeg
 [ -d "$HOME/.shortcuts" ] || mkdir "$HOME/.shortcuts"
 
 # Set script name
-script_name="compress videos.sh"
-
+script_name="compress_videos.sh"
 
 # Create the script in the .shortcuts folder of Termux, in order to be able to call the script from Termux Widget
 cat > "$HOME/.shortcuts/$script_name" << EOF
@@ -48,13 +47,17 @@ video_found=0
 
 mkdir -p "\$HOME/storage/shared\$folder_with_videos_to_compress"
 
-for f in "\$HOME/storage/shared\$folder_with_videos_to_compress"*.mp4; do
-  # If the folder is empty, "f" will take the value of the string tested, so we ensure "f" is a file
-  [ -f "\$f" ] || continue
+for file in "\$HOME/storage/shared\$folder_with_videos_to_compress"*.[mM][pP]4 \\
+         "\$HOME/storage/shared\$folder_with_videos_to_compress"*.[aA][vV][iI] \\
+         "\$HOME/storage/shared\$folder_with_videos_to_compress"*.[mM][oO][vV] \\
+         "\$HOME/storage/shared\$folder_with_videos_to_compress"*.[mM][kK][vV]; do
+
+  # Ensure it's a file
+  [ -f "\$file" ] || continue
 
   video_found=1
 
-  filename_with_extension=\$(basename "\$f")
+  filename_with_extension=\$(basename "\$file")
   filename="\${filename_with_extension%.*}"
   output_file="\$HOME/storage/shared\$folder_with_videos_to_compress\$filename\$compress_tag.mp4"
   
@@ -68,15 +71,17 @@ for f in "\$HOME/storage/shared\$folder_with_videos_to_compress"*.mp4; do
     continue
   fi
 
-  ffmpeg -i "\$f" -c:v libx265 -crf 25 -preset medium -c:a copy "\$output_file" -hide_banner
+  ffmpeg -i "\$file" -c:v libx265 -crf 25 -preset medium -c:a copy "\$output_file" -hide_banner -loglevel error
 done
 
 if [ "\$video_found" -eq 0 ]; then
-  echo "\nNo videos founds, please put videos in \$folder_with_videos_to_compress before starting the compression\n"
+  echo "\nNo videos founds, please put videos in"
+  echo "\$folder_with_videos_to_compress before starting the compression.\n"
   echo "Press Enter to close."
 else
   echo "\n\nFinished\n"
-  echo "Please verify that no error occured, then press Enter to close.\n"
+  echo "Please verify that no error occured,"
+  echo "then press Enter to close."
 fi
 read dummy
 
@@ -86,7 +91,9 @@ EOF
 # Give execution right on the script
 chmod +x "$HOME/.shortcuts/$script_name"
 
-echo -e "\n\nInstallation finished, 1. and 2. Ok\n"
+echo -e "\n\nInstallation finished\n"
+echo -e "1. Ok\n"
+echo -e "2. Ok\n"
 echo -e "3. Now create a shortcut/widget for Termux and select the compression script.\n"
 echo -e "4. Place your videos in the designated folder for compression :"
 echo -e "$folder_with_videos_to_compress\n"
