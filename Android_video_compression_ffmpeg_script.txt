@@ -38,6 +38,7 @@ pkg install -y ffmpeg
 # Set script name
 script_name="compress_videos.sh"
 
+
 # Create the script in the .shortcuts folder of Termux, in order to be able to call the script from Termux Widget
 cat > "$HOME/.shortcuts/$script_name" << EOF
 
