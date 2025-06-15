@@ -73,7 +73,7 @@ for file in "\$HOME/storage/shared\$folder_with_videos_to_compress"*.[mM][pP]4 \
   fi
 
   echo "\n\n\nStart conversion for \$filename_with_extension :\n\n"
-  ffmpeg -i "\$file" -c:v libx265 -crf 25 -preset medium -c:a copy "\$output_file" -hide_banner -loglevel error
+  ffmpeg -i "\$file" -c:v libx265 -crf 23 -preset medium -c:a copy "\$output_file" -hide_banner -loglevel warning
 done
 
 if [ "\$video_found" -eq 0 ]; then
