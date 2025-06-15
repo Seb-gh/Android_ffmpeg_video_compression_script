@@ -75,7 +75,7 @@ for file in "\$HOME/storage/shared\$folder_with_videos_to_compress"*.[mM][pP]4 \
   echo "\n\n\nStart conversion for \$filename_with_extension :\n"
   echo "Please wait, there will be no progress bar because loglevel is set on warning so that warnings or errors can be seen more easily\n\n"
   sleep 1.5
-  ffmpeg -i "\$file" -c:v libx265 -crf 23 -preset medium -c:a copy "\$output_file" -hide_banner -loglevel warning
+  ffmpeg -i "\$file" -c:v libx265 -crf 24 -preset medium -c:a copy "\$output_file" -hide_banner -loglevel warning
 done
 
 if [ "\$video_found" -eq 0 ]; then
